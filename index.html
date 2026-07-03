@@ -6,7 +6,6 @@
 <title>保温工事 見積もりツール</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
 body {
   background: #f5f2ed;
   color: #1a1a1a;
@@ -16,323 +15,90 @@ body {
   max-width: 480px;
   margin: 0 auto;
 }
+.header { padding: 20px 0 16px; border-bottom: 2px solid #1a1a1a; margin-bottom: 20px; }
+.header .eyebrow { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #888; margin-bottom: 4px; }
+.header h1 { font-size: 22px; font-weight: 900; letter-spacing: -0.02em; }
+.header h1 span { color: #d45a00; }
 
-.header {
-  padding: 20px 0 16px;
-  border-bottom: 2px solid #1a1a1a;
-  margin-bottom: 20px;
+.main-tabs { display: flex; gap: 4px; margin-bottom: 16px; }
+.main-tab {
+  flex: 1; padding: 10px 6px; border-radius: 8px; font-size: 12px; font-weight: 700;
+  cursor: pointer; border: 1px solid #e0dbd4; background: #fff; color: #888;
+  text-align: center; transition: all 0.15s;
 }
+.main-tab.active { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
 
-.header .eyebrow {
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #888;
-  margin-bottom: 4px;
+.section { background: #fff; border: 1px solid #e0dbd4; border-radius: 10px; padding: 16px; margin-bottom: 12px; }
+.section-title { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: #888; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #f0ebe4; }
+
+.sub-tabs { display: flex; gap: 4px; margin-bottom: 14px; }
+.sub-tab {
+  flex: 1; padding: 8px 4px; border-radius: 6px; font-size: 11px; font-weight: 700;
+  cursor: pointer; border: 1px solid #e0dbd4; background: #fff; color: #888;
+  text-align: center; transition: all 0.15s;
 }
+.sub-tab.active { background: #d45a00; color: #fff; border-color: #d45a00; }
 
-.header h1 {
-  font-size: 22px;
-  font-weight: 900;
-  letter-spacing: -0.02em;
+.thickness-tabs { display: flex; gap: 4px; margin-bottom: 14px; overflow-x: auto; }
+.thickness-tab {
+  flex-shrink: 0; padding: 7px 12px; border-radius: 6px; font-size: 12px; font-weight: 700;
+  cursor: pointer; border: 1px solid #e0dbd4; background: #fff; color: #888; transition: all 0.15s;
 }
+.thickness-tab.active { background: #d45a00; color: #fff; border-color: #d45a00; }
 
-.header h1 span {
-  color: #d45a00;
+.input-table { width: 100%; border-collapse: collapse; }
+.input-table th { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #888; text-align: left; padding: 0 0 8px; font-weight: 600; }
+.input-table th:not(:first-child) { text-align: right; }
+.input-table tr:not(:last-child) td { padding-bottom: 8px; }
+.input-table td { vertical-align: middle; }
+.row-label { font-size: 13px; font-weight: 700; color: #1a1a1a; width: 55px; }
+.input-table input[type="number"] {
+  width: 100%; background: #f9f7f4; border: 1px solid #e0dbd4; border-radius: 6px;
+  padding: 7px 8px; font-size: 13px; color: #1a1a1a; text-align: right; outline: none;
 }
+.input-table input[type="number"]:focus { border-color: #d45a00; }
+.input-table td:not(:first-child) { padding-left: 6px; }
 
-/* Section */
-.section {
-  background: #fff;
-  border: 1px solid #e0dbd4;
-  border-radius: 10px;
-  padding: 16px;
-  margin-bottom: 12px;
-}
-
-.section-title {
-  font-size: 10px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: #888;
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #f0ebe4;
-}
-
-/* Unit price settings */
-.unit-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-
-.unit-item label {
-  display: block;
-  font-size: 11px;
-  color: #666;
-  margin-bottom: 4px;
-}
-
+.unit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.unit-item label { display: block; font-size: 11px; color: #666; margin-bottom: 4px; }
 .unit-item input {
-  width: 100%;
-  background: #f9f7f4;
-  border: 1px solid #e0dbd4;
-  border-radius: 6px;
-  padding: 8px 10px;
-  font-size: 13px;
-  color: #1a1a1a;
-  outline: none;
+  width: 100%; background: #f9f7f4; border: 1px solid #e0dbd4; border-radius: 6px;
+  padding: 8px 10px; font-size: 13px; color: #1a1a1a; outline: none;
 }
+.unit-item input:focus { border-color: #d45a00; }
 
-.unit-item input:focus {
-  border-color: #d45a00;
+.lacing-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.lacing-row label { font-size: 13px; font-weight: 700; white-space: nowrap; width: 90px; }
+.lacing-row input {
+  flex: 1; background: #f9f7f4; border: 1px solid #e0dbd4; border-radius: 6px;
+  padding: 8px 10px; font-size: 13px; text-align: right; outline: none;
 }
+.lacing-row input:focus { border-color: #d45a00; }
+.lacing-row span { font-size: 12px; color: #888; white-space: nowrap; }
 
-/* Input table */
-.pipe-table {
-  width: 100%;
-  border-collapse: collapse;
-}
+.result-section { background: #1a1a1a; border-radius: 10px; padding: 16px; margin-bottom: 12px; }
+.result-section .r-title { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: #666; margin-bottom: 12px; }
+.result-rows { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+.result-row { display: flex; justify-content: space-between; align-items: baseline; }
+.result-row .r-label { font-size: 12px; color: #888; }
+.result-row .r-value { font-size: 14px; font-weight: 700; color: #f5f2ed; }
+.result-total { border-top: 1px solid #333; padding-top: 12px; display: flex; justify-content: space-between; align-items: baseline; }
+.result-total .t-label { font-size: 12px; color: #888; }
+.result-total .t-value { font-size: 28px; font-weight: 900; color: #d45a00; }
+.result-tax { text-align: right; font-size: 11px; color: #555; margin-top: 4px; }
 
-.pipe-table th {
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #888;
-  text-align: left;
-  padding: 0 0 8px;
-  font-weight: 600;
-}
+.btn-row { display: flex; gap: 8px; margin-bottom: 12px; }
+.btn { flex: 1; padding: 14px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; }
+.btn-calc { background: #d45a00; color: #fff; }
+.btn-reset { background: #e0dbd4; color: #666; }
 
-.pipe-table th:not(:first-child) {
-  text-align: right;
-}
-
-.pipe-table tr:not(:last-child) td {
-  padding-bottom: 8px;
-}
-
-.pipe-table td {
-  vertical-align: middle;
-}
-
-.pipe-label {
-  font-size: 13px;
-  font-weight: 700;
-  color: #1a1a1a;
-  width: 50px;
-}
-
-.pipe-table input[type="number"] {
-  width: 100%;
-  background: #f9f7f4;
-  border: 1px solid #e0dbd4;
-  border-radius: 6px;
-  padding: 7px 8px;
-  font-size: 13px;
-  color: #1a1a1a;
-  text-align: right;
-  outline: none;
-}
-
-.pipe-table input[type="number"]:focus {
-  border-color: #d45a00;
-}
-
-.pipe-table td:not(:first-child) {
-  padding-left: 6px;
-}
-
-/* Duct */
-.duct-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.duct-row label {
-  font-size: 13px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.duct-row input {
-  flex: 1;
-  background: #f9f7f4;
-  border: 1px solid #e0dbd4;
-  border-radius: 6px;
-  padding: 8px 10px;
-  font-size: 13px;
-  text-align: right;
-  outline: none;
-}
-
-.duct-row input:focus {
-  border-color: #d45a00;
-}
-
-.duct-row span {
-  font-size: 12px;
-  color: #888;
-  white-space: nowrap;
-}
-
-/* Result */
-.result-section {
-  background: #1a1a1a;
-  border-radius: 10px;
-  padding: 16px;
-  margin-bottom: 12px;
-}
-
-.result-section .r-title {
-  font-size: 10px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: #666;
-  margin-bottom: 12px;
-}
-
-.result-rows {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 14px;
-}
-
-.result-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-}
-
-.result-row .r-label {
-  font-size: 12px;
-  color: #888;
-}
-
-.result-row .r-value {
-  font-size: 14px;
-  font-weight: 700;
-  color: #f5f2ed;
-}
-
-.result-total {
-  border-top: 1px solid #333;
-  padding-top: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-}
-
-.result-total .t-label {
-  font-size: 12px;
-  color: #888;
-  letter-spacing: 0.05em;
-}
-
-.result-total .t-value {
-  font-size: 28px;
-  font-weight: 900;
-  color: #d45a00;
-  letter-spacing: -0.02em;
-}
-
-.result-tax {
-  text-align: right;
-  font-size: 11px;
-  color: #555;
-  margin-top: 4px;
-}
-
-/* Buttons */
-.btn-row {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.btn {
-  flex: 1;
-  padding: 14px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  border: none;
-  letter-spacing: 0.03em;
-}
-
-.btn-calc {
-  background: #d45a00;
-  color: #fff;
-}
-
-.btn-reset {
-  background: #e0dbd4;
-  color: #666;
-}
-
-/* Breakdown */
-.breakdown {
-  background: #fff;
-  border: 1px solid #e0dbd4;
-  border-radius: 10px;
-  padding: 16px;
-  margin-bottom: 12px;
-  display: none;
-}
-
+.breakdown { background: #fff; border: 1px solid #e0dbd4; border-radius: 10px; padding: 16px; margin-bottom: 12px; display: none; }
 .breakdown.show { display: block; }
-
-.breakdown-title {
-  font-size: 10px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: #888;
-  margin-bottom: 10px;
-}
-
-.breakdown-item {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  color: #555;
-  padding: 4px 0;
-  border-bottom: 1px solid #f0ebe4;
-}
-
+.breakdown-title { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: #888; margin-bottom: 10px; }
+.breakdown-item { display: flex; justify-content: space-between; font-size: 12px; color: #555; padding: 4px 0; border-bottom: 1px solid #f0ebe4; }
 .breakdown-item:last-child { border-bottom: none; }
 .breakdown-item .bi-val { color: #1a1a1a; font-weight: 600; }
-
-/* Tab */
-.tabs {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 12px;
-}
-
-.tab {
-  flex: 1;
-  padding: 8px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-align: center;
-  cursor: pointer;
-  border: 1px solid #e0dbd4;
-  background: #fff;
-  color: #888;
-  transition: all 0.15s;
-}
-
-.tab.active {
-  background: #1a1a1a;
-  color: #fff;
-  border-color: #1a1a1a;
-}
+.breakdown-group { font-size: 10px; color: #d45a00; letter-spacing: 0.1em; text-transform: uppercase; padding: 8px 0 4px; font-weight: 700; }
 </style>
 </head>
 <body>
@@ -342,67 +108,38 @@ body {
   <h1>保温工事<span>見積もり</span>ツール</h1>
 </div>
 
-<!-- 単価設定 -->
-<div class="section">
-  <div class="section-title">単価設定（円）</div>
-  <div class="tabs">
-    <div class="tab active" onclick="switchTab('pipe')">配管単価</div>
-    <div class="tab" onclick="switchTab('fitting')">継手単価</div>
-    <div class="tab" onclick="switchTab('duct')">ダクト単価</div>
-  </div>
-
-  <div id="tab-pipe" class="unit-grid">
-    <div class="unit-item"><label>20A（/m）</label><input type="number" id="u20" value="800"></div>
-    <div class="unit-item"><label>25A（/m）</label><input type="number" id="u25" value="900"></div>
-    <div class="unit-item"><label>32A（/m）</label><input type="number" id="u32" value="1000"></div>
-    <div class="unit-item"><label>40A（/m）</label><input type="number" id="u40" value="1100"></div>
-    <div class="unit-item"><label>50A（/m）</label><input type="number" id="u50" value="1300"></div>
-    <div class="unit-item"><label>65A（/m）</label><input type="number" id="u65" value="1500"></div>
-    <div class="unit-item"><label>80A（/m）</label><input type="number" id="u80" value="1800"></div>
-    <div class="unit-item"><label>100A（/m）</label><input type="number" id="u100" value="2200"></div>
-  </div>
-
-  <div id="tab-fitting" class="unit-grid" style="display:none">
-    <div class="unit-item"><label>20A エルボ（/個）</label><input type="number" id="fe20" value="300"></div>
-    <div class="unit-item"><label>25A エルボ（/個）</label><input type="number" id="fe25" value="350"></div>
-    <div class="unit-item"><label>32A エルボ（/個）</label><input type="number" id="fe32" value="400"></div>
-    <div class="unit-item"><label>40A エルボ（/個）</label><input type="number" id="fe40" value="450"></div>
-    <div class="unit-item"><label>50A エルボ（/個）</label><input type="number" id="fe50" value="550"></div>
-    <div class="unit-item"><label>65A エルボ（/個）</label><input type="number" id="fe65" value="650"></div>
-    <div class="unit-item"><label>80A エルボ（/個）</label><input type="number" id="fe80" value="800"></div>
-    <div class="unit-item"><label>100A エルボ（/個）</label><input type="number" id="fe100" value="1000"></div>
-  </div>
-
-  <div id="tab-duct" style="display:none">
-    <div class="unit-item"><label>ダクト保温（/㎡）</label><input type="number" id="uDuct" value="3500" style="width:100%"></div>
-  </div>
+<div class="main-tabs">
+  <div class="main-tab active" onclick="switchMain('hoon')">保温工事</div>
+  <div class="main-tab" onclick="switchMain('lacing')">ラッキング</div>
+  <div class="main-tab" onclick="switchMain('unit')">単価設定</div>
 </div>
 
-<!-- 数量入力 -->
-<div class="section">
-  <div class="section-title">数量入力</div>
-  <table class="pipe-table">
-    <thead>
-      <tr>
-        <th>口径</th>
-        <th style="text-align:right">直管（m）</th>
-        <th style="text-align:right">エルボ（個）</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td class="pipe-label">20A</td><td><input type="number" id="m20" value="0" min="0"></td><td><input type="number" id="e20" value="0" min="0"></td></tr>
-      <tr><td class="pipe-label">25A</td><td><input type="number" id="m25" value="0" min="0"></td><td><input type="number" id="e25" value="0" min="0"></td></tr>
-      <tr><td class="pipe-label">32A</td><td><input type="number" id="m32" value="0" min="0"></td><td><input type="number" id="e32" value="0" min="0"></td></tr>
-      <tr><td class="pipe-label">40A</td><td><input type="number" id="m40" value="0" min="0"></td><td><input type="number" id="e40" value="0" min="0"></td></tr>
-      <tr><td class="pipe-label">50A</td><td><input type="number" id="m50" value="0" min="0"></td><td><input type="number" id="e50" value="0" min="0"></td></tr>
-      <tr><td class="pipe-label">65A</td><td><input type="number" id="m65" value="0" min="0"></td><td><input type="number" id="e65" value="0" min="0"></td></tr>
-      <tr><td class="pipe-label">80A</td><td><input type="number" id="m80" value="0" min="0"></td><td><input type="number" id="e80" value="0" min="0"></td></tr>
-      <tr><td class="pipe-label">100A</td><td><input type="number" id="m100" value="0" min="0"></td><td><input type="number" id="e100" value="0" min="0"></td></tr>
-    </tbody>
-  </table>
+<!-- ===== 保温工事 ===== -->
+<div id="main-hoon">
+  <div class="section">
+    <div class="section-title">配管 — 直管</div>
+    <div class="sub-tabs" id="kojiTypeTabs">
+      <div class="sub-tab active" onclick="switchKojiType(0)">隠蔽工事</div>
+      <div class="sub-tab" onclick="switchKojiType(1)">露出工事</div>
+    </div>
+    <div class="thickness-tabs" id="inputThickTabs">
+      <div class="thickness-tab active" onclick="switchInputThick(0)">20mm</div>
+      <div class="thickness-tab" onclick="switchInputThick(1)">25mm</div>
+      <div class="thickness-tab" onclick="switchInputThick(2)">30mm</div>
+      <div class="thickness-tab" onclick="switchInputThick(3)">40mm</div>
+    </div>
+    <div id="pipe-input-panels-inkei" ></div>
+    <div id="pipe-input-panels-roshutsu" style="display:none"></div>
+  </div>
 
-  <div style="margin-top:14px; padding-top:12px; border-top:1px solid #f0ebe4;">
-    <div class="duct-row">
+  <div class="section">
+    <div class="section-title">弁類（個）</div>
+    <div class="unit-grid" id="valve-inputs"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">ダクト保温</div>
+    <div class="lacing-row">
       <label>ダクト</label>
       <input type="number" id="ductM2" value="0" min="0">
       <span>㎡</span>
@@ -410,33 +147,100 @@ body {
   </div>
 </div>
 
-<!-- 諸経費 -->
-<div class="section">
-  <div class="section-title">諸経費・調整</div>
-  <div class="unit-grid">
-    <div class="unit-item">
-      <label>諸経費（円）</label>
-      <input type="number" id="miscCost" value="0">
+<!-- ===== ラッキング ===== -->
+<div id="main-lacing" style="display:none">
+  <!-- 直管ラッキング：材質タブ→口径別 -->
+  <div class="section">
+    <div class="section-title">直管ラッキング — 材質 × 口径（m）</div>
+    <div class="sub-tabs" id="lacingMatTabs">
+      <div class="sub-tab active" onclick="switchLacingMat(0)">ステンレス</div>
+      <div class="sub-tab" onclick="switchLacingMat(1)">ガルバ</div>
+      <div class="sub-tab" onclick="switchLacingMat(2)">カラー合板</div>
     </div>
-    <div class="unit-item">
-      <label>値引き（円）</label>
-      <input type="number" id="discount" value="0">
+    <div id="lacing-mat-panels"></div>
+  </div>
+
+  <!-- ラッキングエルボ：材質タブ→口径別 -->
+  <div class="section">
+    <div class="section-title">ラッキング エルボ — 材質 × 口径（個）</div>
+    <div class="sub-tabs" id="lacingElbowMatTabs">
+      <div class="sub-tab active" onclick="switchLacingElbowMat(0)">ステンレス</div>
+      <div class="sub-tab" onclick="switchLacingElbowMat(1)">ガルバ</div>
+      <div class="sub-tab" onclick="switchLacingElbowMat(2)">カラー合板</div>
+    </div>
+    <div id="lacing-elbow-mat-panels"></div>
+  </div>
+</div>
+
+<!-- ===== 単価設定 ===== -->
+<div id="main-unit" style="display:none">
+  <div class="section">
+    <div class="section-title">配管保温 単価（円/m）</div>
+    <div class="sub-tabs" id="unitKojiTypeTabs">
+      <div class="sub-tab active" onclick="switchUnitKojiType(0)">隠蔽工事</div>
+      <div class="sub-tab" onclick="switchUnitKojiType(1)">露出工事</div>
+    </div>
+    <div class="thickness-tabs" id="unitThickTabs">
+      <div class="thickness-tab active" onclick="switchUnitThick(0)">20mm</div>
+      <div class="thickness-tab" onclick="switchUnitThick(1)">25mm</div>
+      <div class="thickness-tab" onclick="switchUnitThick(2)">30mm</div>
+      <div class="thickness-tab" onclick="switchUnitThick(3)">40mm</div>
+    </div>
+    <div id="unit-panels-inkei"></div>
+    <div id="unit-panels-roshutsu" style="display:none"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">弁類 単価（円/個）</div>
+    <div class="unit-grid" id="valve-units"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">ラッキング直管 単価（円/m）— 材質 × 口径</div>
+    <div class="sub-tabs" id="unitLacingMatTabs">
+      <div class="sub-tab active" onclick="switchUnitLacingMat(0)">ステンレス</div>
+      <div class="sub-tab" onclick="switchUnitLacingMat(1)">ガルバ</div>
+      <div class="sub-tab" onclick="switchUnitLacingMat(2)">カラー合板</div>
+    </div>
+    <div id="unit-lacing-mat-panels"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">ラッキング エルボ単価（円/個）— 材質 × 口径</div>
+    <div class="sub-tabs" id="unitLacingElbowMatTabs">
+      <div class="sub-tab active" onclick="switchUnitLacingElbowMat(0)">ステンレス</div>
+      <div class="sub-tab" onclick="switchUnitLacingElbowMat(1)">ガルバ</div>
+      <div class="sub-tab" onclick="switchUnitLacingElbowMat(2)">カラー合板</div>
+    </div>
+    <div id="unit-lacing-elbow-mat-panels"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">ダクト保温 単価（円/㎡）</div>
+    <div class="unit-item"><input type="number" id="uDuct" value="3500" style="width:100%"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">諸経費・調整</div>
+    <div class="unit-grid">
+      <div class="unit-item"><label>諸経費（円）</label><input type="number" id="miscCost" value="0"></div>
+      <div class="unit-item"><label>値引き（円）</label><input type="number" id="discount" value="0"></div>
     </div>
   </div>
 </div>
 
-<!-- 計算ボタン -->
 <div class="btn-row">
   <button class="btn btn-calc" onclick="calculate()">見積もり計算</button>
   <button class="btn btn-reset" onclick="resetAll()">リセット</button>
 </div>
 
-<!-- 結果 -->
 <div class="result-section">
   <div class="r-title">見積もり結果</div>
   <div class="result-rows">
-    <div class="result-row"><span class="r-label">配管工事</span><span class="r-value" id="rPipe">¥0</span></div>
-    <div class="result-row"><span class="r-label">ダクト工事</span><span class="r-value" id="rDuct">¥0</span></div>
+    <div class="result-row"><span class="r-label">配管保温</span><span class="r-value" id="rPipe">¥0</span></div>
+    <div class="result-row"><span class="r-label">弁類</span><span class="r-value" id="rValve">¥0</span></div>
+    <div class="result-row"><span class="r-label">ダクト保温</span><span class="r-value" id="rDuct">¥0</span></div>
+    <div class="result-row"><span class="r-label">ラッキング</span><span class="r-value" id="rLacing">¥0</span></div>
     <div class="result-row"><span class="r-label">諸経費</span><span class="r-value" id="rMisc">¥0</span></div>
     <div class="result-row"><span class="r-label">値引き</span><span class="r-value" id="rDiscount">-¥0</span></div>
   </div>
@@ -447,104 +251,281 @@ body {
   <div class="result-tax" id="rTaxInfo">消費税(10%): ¥0 ／ 税込: ¥0</div>
 </div>
 
-<!-- 明細 -->
 <div class="breakdown" id="breakdown">
   <div class="breakdown-title">明細内訳</div>
   <div id="breakdownItems"></div>
 </div>
 
 <script>
-const sizes = [20,25,32,40,50,65,80,100];
+const SIZES = [20,25,32,40,50,65,80,100];
+const THICKNESS = ['20mm','25mm','30mm','40mm'];
+const MATERIALS = ['ステンレス','ガルバ','カラー合板'];
+const MAT_KEYS = ['SUS','GAL','COL'];
 
-function switchTab(tab) {
-  ['pipe','fitting','duct'].forEach(t => {
-    document.getElementById('tab-' + t).style.display = t === tab ? (t === 'duct' ? 'block' : 'grid') : 'none';
+function getAvailThick(size){ return size>=100?[1,2,3]:[0,1,2,3]; }
+
+const DEF_PIPE = {
+  0:{20:800,25:900,32:1000,40:1100,50:1300,65:1500,80:1800},
+  1:{20:1000,25:1100,32:1200,40:1300,50:1500,65:1700,80:2000,100:2500},
+  2:{20:1200,25:1300,32:1400,40:1500,50:1800,65:2000,80:2300,100:2800},
+  3:{20:1500,25:1600,32:1800,40:2000,50:2300,65:2600,80:3000,100:3500},
+};
+const DEF_VALVE = {20:500,25:600,32:700,40:800,50:1000,65:1200,80:1500,100:2000};
+const DEF_LAC = {SUS:{20:3000,25:3200,32:3500,40:3800,50:4200,65:4800,80:5500,100:6500}, GAL:{20:2500,25:2700,32:3000,40:3300,50:3700,65:4200,80:4800,100:5800}, COL:{20:2000,25:2200,32:2500,40:2800,50:3200,65:3700,80:4200,100:5000}};
+const DEF_LE = {SUS:{20:600,25:700,32:800,40:900,50:1100,65:1300,80:1600,100:2000}, GAL:{20:500,25:600,32:700,40:800,50:1000,65:1200,80:1400,100:1800}, COL:{20:400,25:450,32:500,40:600,50:750,65:900,80:1100,100:1400}};
+
+function fmt(n){ return '¥'+Math.round(n).toLocaleString('ja-JP'); }
+
+function makeSizeTable(idPrefix, defaultValues){
+  return `<table class="input-table">
+    <thead><tr><th>口径</th><th style="text-align:right">数量</th></tr></thead>
+    <tbody>${SIZES.map(s=>`<tr><td class="row-label">${s}A</td><td><input type="number" id="${idPrefix}_${s}" value="${defaultValues?defaultValues[s]||0:0}" min="0"></td></tr>`).join('')}</tbody>
+  </table>`;
+}
+
+let currentKojiType = 0; // 0=隠蔽, 1=露出
+
+function switchKojiType(idx){
+  currentKojiType = idx;
+  document.getElementById('pipe-input-panels-inkei').style.display = idx===0?'block':'none';
+  document.getElementById('pipe-input-panels-roshutsu').style.display = idx===1?'block':'none';
+  document.querySelectorAll('#kojiTypeTabs .sub-tab').forEach((el,i)=>el.classList.toggle('active',i===idx));
+  // 厚みタブも連動してリセット
+  switchInputThick(0);
+}
+
+function buildAll(){
+  // 配管入力（隠蔽・露出それぞれ）
+  ['inkei','roshutsu'].forEach(type=>{
+    const pCont = document.getElementById('pipe-input-panels-'+type);
+    pCont.innerHTML='';
+    THICKNESS.forEach((th,ti)=>{
+      const sizes=SIZES.filter(s=>getAvailThick(s).includes(ti));
+      const panel=document.createElement('div');
+      panel.id=`pip-${type}-${ti}`;
+      panel.style.display=ti===0?'block':'none';
+      panel.innerHTML=`<table class="input-table"><thead><tr><th>口径</th><th style="text-align:right">直管（m）</th></tr></thead><tbody>
+        ${sizes.map(s=>`<tr><td class="row-label">${s}A</td><td><input type="number" id="m_${type}_${ti}_${s}" value="0" min="0"></td></tr>`).join('')}
+      </tbody></table>`;
+      pCont.appendChild(panel);
+    });
   });
-  document.querySelectorAll('.tab').forEach((el, i) => {
-    el.classList.toggle('active', ['pipe','fitting','duct'][i] === tab);
+
+  // 弁類入力
+  document.getElementById('valve-inputs').innerHTML=SIZES.map(s=>
+    `<div class="unit-item"><label>${s}A（個）</label><input type="number" id="v_${s}" value="0" min="0"></div>`
+  ).join('');
+
+  // ラッキング直管：材質×口径
+  const lmCont=document.getElementById('lacing-mat-panels');
+  lmCont.innerHTML='';
+  MAT_KEYS.forEach((mk,mi)=>{
+    const panel=document.createElement('div');
+    panel.id='lm-'+mi;
+    panel.style.display=mi===0?'block':'none';
+    panel.innerHTML=makeSizeTable('l_'+mk, null);
+    lmCont.appendChild(panel);
+  });
+
+  // ラッキングエルボ：材質×口径
+  const leCont=document.getElementById('lacing-elbow-mat-panels');
+  leCont.innerHTML='';
+  MAT_KEYS.forEach((mk,mi)=>{
+    const panel=document.createElement('div');
+    panel.id='lem-'+mi;
+    panel.style.display=mi===0?'block':'none';
+    panel.innerHTML=makeSizeTable('le_'+mk, null);
+    leCont.appendChild(panel);
+  });
+
+  // 配管単価（隠蔽・露出）
+  ['inkei','roshutsu'].forEach(type=>{
+    const uCont=document.getElementById('unit-panels-'+type);
+    uCont.innerHTML='';
+    THICKNESS.forEach((th,ti)=>{
+      const sizes=SIZES.filter(s=>getAvailThick(s).includes(ti));
+      const panel=document.createElement('div');
+      panel.id=`up-${type}-${ti}`;
+      panel.style.display=ti===0?'grid':'none';
+      panel.style.gridTemplateColumns='1fr 1fr';
+      panel.style.gap='8px';
+      panel.innerHTML=sizes.map(s=>`<div class="unit-item"><label>${s}A（/m）</label><input type="number" id="u_${type}_${ti}_${s}" value="${DEF_PIPE[ti][s]||0}"></div>`).join('');
+      uCont.appendChild(panel);
+    });
+  });
+
+  // 弁類単価
+  document.getElementById('valve-units').innerHTML=SIZES.map(s=>
+    `<div class="unit-item"><label>${s}A（/個）</label><input type="number" id="uv_${s}" value="${DEF_VALVE[s]}"></div>`
+  ).join('');
+
+  // ラッキング直管単価：材質×口径
+  const ulCont=document.getElementById('unit-lacing-mat-panels');
+  ulCont.innerHTML='';
+  MAT_KEYS.forEach((mk,mi)=>{
+    const panel=document.createElement('div');
+    panel.id='ulm-'+mi;
+    panel.style.display=mi===0?'grid':'none';
+    panel.style.gridTemplateColumns='1fr 1fr';
+    panel.style.gap='8px';
+    panel.innerHTML=SIZES.map(s=>`<div class="unit-item"><label>${s}A（/m）</label><input type="number" id="ul_${mk}_${s}" value="${DEF_LAC[mk][s]||0}"></div>`).join('');
+    ulCont.appendChild(panel);
+  });
+
+  // ラッキングエルボ単価：材質×口径
+  const uleCont=document.getElementById('unit-lacing-elbow-mat-panels');
+  uleCont.innerHTML='';
+  MAT_KEYS.forEach((mk,mi)=>{
+    const panel=document.createElement('div');
+    panel.id='ulem-'+mi;
+    panel.style.display=mi===0?'grid':'none';
+    panel.style.gridTemplateColumns='1fr 1fr';
+    panel.style.gap='8px';
+    panel.innerHTML=SIZES.map(s=>`<div class="unit-item"><label>${s}A（/個）</label><input type="number" id="ule_${mk}_${s}" value="${DEF_LE[mk][s]||0}"></div>`).join('');
+    uleCont.appendChild(panel);
   });
 }
 
-function fmt(n) {
-  return '¥' + Math.round(n).toLocaleString('ja-JP');
+// タブ切り替え関数
+function switchMain(tab){
+  ['hoon','lacing','unit'].forEach(t=>document.getElementById('main-'+t).style.display=t===tab?'block':'none');
+  document.querySelectorAll('.main-tab').forEach((el,i)=>el.classList.toggle('active',['hoon','lacing','unit'][i]===tab));
 }
 
-function calculate() {
-  let pipeTotal = 0;
-  let ductTotal = 0;
-  const items = [];
+function switchInputThick(idx){
+  const type = currentKojiType===0?'inkei':'roshutsu';
+  THICKNESS.forEach((_,ti)=>{
+    const el=document.getElementById(`pip-${type}-${ti}`);
+    if(el) el.style.display=ti===idx?'block':'none';
+  });
+  document.querySelectorAll('#inputThickTabs .thickness-tab').forEach((el,i)=>el.classList.toggle('active',i===idx));
+}
 
-  sizes.forEach(s => {
-    const m = +document.getElementById('m' + s).value || 0;
-    const e = +document.getElementById('e' + s).value || 0;
-    const um = +document.getElementById('u' + s).value || 0;
-    const ue = +document.getElementById('fe' + s).value || 0;
+let currentUnitKojiType = 0;
 
-    const pipeAmt = m * um;
-    const elbowAmt = e * ue;
+function switchUnitKojiType(idx){
+  currentUnitKojiType = idx;
+  document.getElementById('unit-panels-inkei').style.display = idx===0?'block':'none';
+  document.getElementById('unit-panels-roshutsu').style.display = idx===1?'block':'none';
+  document.querySelectorAll('#unitKojiTypeTabs .sub-tab').forEach((el,i)=>el.classList.toggle('active',i===idx));
+  switchUnitThick(0);
+}
 
-    if (pipeAmt > 0) {
-      items.push({ label: `${s}A 直管 ${m}m × ${fmt(um)}`, val: pipeAmt });
-      pipeTotal += pipeAmt;
-    }
-    if (elbowAmt > 0) {
-      items.push({ label: `${s}A エルボ ${e}個 × ${fmt(ue)}`, val: elbowAmt });
-      pipeTotal += elbowAmt;
-    }
+function switchUnitThick(idx){
+  const type = currentUnitKojiType===0?'inkei':'roshutsu';
+  THICKNESS.forEach((_,ti)=>{ const el=document.getElementById(`up-${type}-${ti}`); if(el)el.style.display=ti===idx?'grid':'none'; });
+  document.querySelectorAll('#unitThickTabs .thickness-tab').forEach((el,i)=>el.classList.toggle('active',i===idx));
+}
+
+function switchLacingMat(idx){
+  MAT_KEYS.forEach((_,mi)=>document.getElementById('lm-'+mi).style.display=mi===idx?'block':'none');
+  document.querySelectorAll('#lacingMatTabs .sub-tab').forEach((el,i)=>el.classList.toggle('active',i===idx));
+}
+
+function switchLacingElbowMat(idx){
+  MAT_KEYS.forEach((_,mi)=>document.getElementById('lem-'+mi).style.display=mi===idx?'block':'none');
+  document.querySelectorAll('#lacingElbowMatTabs .sub-tab').forEach((el,i)=>el.classList.toggle('active',i===idx));
+}
+
+function switchUnitLacingMat(idx){
+  MAT_KEYS.forEach((_,mi)=>{ const el=document.getElementById('ulm-'+mi); if(el)el.style.display=mi===idx?'grid':'none'; });
+  document.querySelectorAll('#unitLacingMatTabs .sub-tab').forEach((el,i)=>el.classList.toggle('active',i===idx));
+}
+
+function switchUnitLacingElbowMat(idx){
+  MAT_KEYS.forEach((_,mi)=>{ const el=document.getElementById('ulem-'+mi); if(el)el.style.display=mi===idx?'grid':'none'; });
+  document.querySelectorAll('#unitLacingElbowMatTabs .sub-tab').forEach((el,i)=>el.classList.toggle('active',i===idx));
+}
+
+function calculate(){
+  let pipeTotal=0, valveTotal=0, ductTotal=0, lacingTotal=0;
+  const items=[];
+
+  // 配管（隠蔽・露出）
+  ['inkei','roshutsu'].forEach(type=>{
+    const typeName = type==='inkei'?'隠蔽':'露出';
+    THICKNESS.forEach((th,ti)=>{
+      SIZES.forEach(s=>{
+        if(!getAvailThick(s).includes(ti)) return;
+        const m=+document.getElementById(`m_${type}_${ti}_${s}`)?.value||0;
+        const u=+document.getElementById(`u_${type}_${ti}_${s}`)?.value||0;
+        if(m>0&&u>0){ const a=m*u; items.push({g:'配管保温',label:`[${typeName}] ${s}A/${th} ${m}m × ${fmt(u)}`,val:a}); pipeTotal+=a; }
+      });
+    });
   });
 
-  const ductM2 = +document.getElementById('ductM2').value || 0;
-  const uDuct = +document.getElementById('uDuct').value || 0;
-  ductTotal = ductM2 * uDuct;
-  if (ductTotal > 0) {
-    items.push({ label: `ダクト ${ductM2}㎡ × ${fmt(uDuct)}`, val: ductTotal });
-  }
+  // 弁類
+  SIZES.forEach(s=>{
+    const v=+document.getElementById(`v_${s}`)?.value||0;
+    const uv=+document.getElementById(`uv_${s}`)?.value||0;
+    if(v>0&&uv>0){ const a=v*uv; items.push({g:'弁類',label:`${s}A 弁 ${v}個 × ${fmt(uv)}`,val:a}); valveTotal+=a; }
+  });
 
-  const misc = +document.getElementById('miscCost').value || 0;
-  const discount = +document.getElementById('discount').value || 0;
-  const subtotal = pipeTotal + ductTotal + misc - discount;
-  const tax = Math.round(subtotal * 0.1);
-  const taxInc = subtotal + tax;
+  // ダクト
+  const dm=+document.getElementById('ductM2').value||0;
+  const ud=+document.getElementById('uDuct').value||0;
+  if(dm>0&&ud>0){ const a=dm*ud; items.push({g:'ダクト保温',label:`ダクト ${dm}㎡ × ${fmt(ud)}`,val:a}); ductTotal+=a; }
 
-  document.getElementById('rPipe').textContent = fmt(pipeTotal);
-  document.getElementById('rDuct').textContent = fmt(ductTotal);
-  document.getElementById('rMisc').textContent = fmt(misc);
-  document.getElementById('rDiscount').textContent = '-' + fmt(discount);
-  document.getElementById('rTotal').textContent = fmt(subtotal);
-  document.getElementById('rTaxInfo').textContent = `消費税(10%): ${fmt(tax)} ／ 税込: ${fmt(taxInc)}`;
+  // ラッキング直管
+  MAT_KEYS.forEach((mk,mi)=>{
+    SIZES.forEach(s=>{
+      const m=+document.getElementById(`l_${mk}_${s}`)?.value||0;
+      const u=+document.getElementById(`ul_${mk}_${s}`)?.value||0;
+      if(m>0&&u>0){ const a=m*u; items.push({g:'ラッキング',label:`${MATERIALS[mi]} ${s}A ${m}m × ${fmt(u)}`,val:a}); lacingTotal+=a; }
+    });
+  });
 
-  // Breakdown
-  const bd = document.getElementById('breakdown');
-  const bdItems = document.getElementById('breakdownItems');
-  if (items.length > 0) {
-    bdItems.innerHTML = items.map(i => `
-      <div class="breakdown-item">
-        <span>${i.label}</span>
-        <span class="bi-val">${fmt(i.val)}</span>
-      </div>
-    `).join('');
-    bd.classList.add('show');
+  // ラッキングエルボ
+  MAT_KEYS.forEach((mk,mi)=>{
+    SIZES.forEach(s=>{
+      const e=+document.getElementById(`le_${mk}_${s}`)?.value||0;
+      const ue=+document.getElementById(`ule_${mk}_${s}`)?.value||0;
+      if(e>0&&ue>0){ const a=e*ue; items.push({g:'ラッキング',label:`${MATERIALS[mi]} ${s}A エルボ ${e}個 × ${fmt(ue)}`,val:a}); lacingTotal+=a; }
+    });
+  });
+
+  const misc=+document.getElementById('miscCost').value||0;
+  const disc=+document.getElementById('discount').value||0;
+  const sub=pipeTotal+valveTotal+ductTotal+lacingTotal+misc-disc;
+  const tax=Math.round(sub*0.1);
+
+  document.getElementById('rPipe').textContent=fmt(pipeTotal);
+  document.getElementById('rValve').textContent=fmt(valveTotal);
+  document.getElementById('rDuct').textContent=fmt(ductTotal);
+  document.getElementById('rLacing').textContent=fmt(lacingTotal);
+  document.getElementById('rMisc').textContent=fmt(misc);
+  document.getElementById('rDiscount').textContent='-'+fmt(disc);
+  document.getElementById('rTotal').textContent=fmt(sub);
+  document.getElementById('rTaxInfo').textContent=`消費税(10%): ${fmt(tax)} ／ 税込: ${fmt(sub+tax)}`;
+
+  if(items.length>0){
+    let html=''; let lastG='';
+    items.forEach(i=>{
+      if(i.g!==lastG){ html+=`<div class="breakdown-group">${i.g}</div>`; lastG=i.g; }
+      html+=`<div class="breakdown-item"><span>${i.label}</span><span class="bi-val">${fmt(i.val)}</span></div>`;
+    });
+    document.getElementById('breakdownItems').innerHTML=html;
+    document.getElementById('breakdown').classList.add('show');
   } else {
-    bd.classList.remove('show');
+    document.getElementById('breakdown').classList.remove('show');
   }
 }
 
-function resetAll() {
-  sizes.forEach(s => {
-    document.getElementById('m' + s).value = 0;
-    document.getElementById('e' + s).value = 0;
-  });
-  document.getElementById('ductM2').value = 0;
-  document.getElementById('miscCost').value = 0;
-  document.getElementById('discount').value = 0;
-  document.getElementById('rPipe').textContent = '¥0';
-  document.getElementById('rDuct').textContent = '¥0';
-  document.getElementById('rMisc').textContent = '¥0';
-  document.getElementById('rDiscount').textContent = '-¥0';
-  document.getElementById('rTotal').textContent = '¥0';
-  document.getElementById('rTaxInfo').textContent = '消費税(10%): ¥0 ／ 税込: ¥0';
+function resetAll(){
+  ['inkei','roshutsu'].forEach(type=>THICKNESS.forEach((_,ti)=>SIZES.forEach(s=>{ const el=document.getElementById(`m_${type}_${ti}_${s}`); if(el)el.value=0; })));
+  SIZES.forEach(s=>{ const el=document.getElementById(`v_${s}`); if(el)el.value=0; });
+  MAT_KEYS.forEach(mk=>SIZES.forEach(s=>{
+    ['l_','le_'].forEach(p=>{ const el=document.getElementById(p+mk+'_'+s); if(el)el.value=0; });
+  }));
+  ['ductM2'].forEach(id=>{ const el=document.getElementById(id); if(el)el.value=0; });
+  ['rPipe','rValve','rDuct','rLacing','rMisc'].forEach(id=>document.getElementById(id).textContent='¥0');
+  document.getElementById('rDiscount').textContent='-¥0';
+  document.getElementById('rTotal').textContent='¥0';
+  document.getElementById('rTaxInfo').textContent='消費税(10%): ¥0 ／ 税込: ¥0';
   document.getElementById('breakdown').classList.remove('show');
 }
+
+buildAll();
 </script>
 </body>
 </html>
