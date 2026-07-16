@@ -99,6 +99,46 @@ body {
 .breakdown-item:last-child { border-bottom: none; }
 .breakdown-item .bi-val { color: #1a1a1a; font-weight: 600; }
 .breakdown-group { font-size: 10px; color: #d45a00; letter-spacing: 0.1em; text-transform: uppercase; padding: 8px 0 4px; font-weight: 700; }
+
+.inv-field { margin-bottom: 10px; }
+.inv-field label { display: block; font-size: 11px; color: #666; margin-bottom: 4px; }
+.inv-field input, .inv-field textarea {
+  width: 100%; background: #f9f7f4; border: 1px solid #e0dbd4; border-radius: 6px;
+  padding: 8px 10px; font-size: 13px; color: #1a1a1a; outline: none; font-family: inherit;
+}
+.inv-field textarea { resize: vertical; min-height: 60px; }
+.inv-field input:focus, .inv-field textarea:focus { border-color: #d45a00; }
+.inv-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+#invoicePrintArea {
+  background: #fff; border: 1px solid #e0dbd4; border-radius: 10px; padding: 20px; margin-bottom: 12px;
+  font-family: 'Helvetica Neue', Arial, sans-serif; color: #1a1a1a; font-size: 12px;
+}
+#invoicePrintArea .iv-title { font-size: 28px; font-weight: 900; color: #e6007e; letter-spacing: 0.3em; }
+#invoicePrintArea .iv-topmeta { text-align: right; font-size: 12px; line-height: 1.6; }
+#invoicePrintArea .iv-headrow { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+#invoicePrintArea .iv-client { font-size: 15px; font-weight: 700; border-bottom: 1px solid #1a1a1a; padding-bottom: 8px; margin: 14px 0 6px; min-width: 220px; }
+#invoicePrintArea .iv-lead { font-size: 12px; color: #444; margin-bottom: 14px; }
+#invoicePrintArea .iv-co { font-size: 12px; line-height: 1.7; text-align: right; }
+#invoicePrintArea .iv-amount-box { background: #ffe6f5; border: 1px solid #e6007e; border-radius: 4px; padding: 8px 14px; display: flex; align-items: baseline; gap: 10px; margin-bottom: 16px; }
+#invoicePrintArea .iv-amount-box .iv-amount-label { background: #e6007e; color: #fff; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 3px; }
+#invoicePrintArea .iv-amount-box .iv-amount-value { font-size: 20px; font-weight: 900; }
+#invoicePrintArea table.iv-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+#invoicePrintArea table.iv-table th { background: #e6007e; color: #fff; font-size: 11px; padding: 6px 8px; text-align: center; }
+#invoicePrintArea table.iv-table td { border-bottom: 1px solid #f0d5e8; padding: 6px 8px; font-size: 12px; }
+#invoicePrintArea table.iv-table td.iv-num { text-align: right; }
+#invoicePrintArea table.iv-table tr.iv-koji td { font-weight: 700; background: #faf3f8; }
+#invoicePrintArea .iv-summary { width: 260px; margin-left: auto; }
+#invoicePrintArea .iv-summary div { display: flex; justify-content: space-between; padding: 4px 8px; border-bottom: 1px solid #f0d5e8; }
+#invoicePrintArea .iv-summary div.iv-total { font-weight: 900; font-size: 15px; border-bottom: none; }
+#invoicePrintArea .iv-box-label { background: #e6007e; color: #fff; font-size: 11px; font-weight: 700; padding: 3px 10px; display: inline-block; margin-bottom: 4px; border-radius: 3px 3px 0 0; }
+#invoicePrintArea .iv-box { border: 1px solid #e6007e; border-radius: 4px; padding: 8px 12px; margin-bottom: 14px; font-size: 12px; white-space: pre-line; }
+
+@media print {
+  body * { visibility: hidden; }
+  #invoicePrintArea, #invoicePrintArea * { visibility: visible; }
+  #invoicePrintArea { position: absolute; left: 0; top: 0; width: 100%; max-width: none; border: none; padding: 24px; }
+}
 </style>
 </head>
 <body>
@@ -112,6 +152,7 @@ body {
   <div class="main-tab active" onclick="switchMain('hoon')">保温工事</div>
   <div class="main-tab" onclick="switchMain('lacing')">ラッキング</div>
   <div class="main-tab" onclick="switchMain('unit')">単価設定</div>
+  <div class="main-tab" onclick="switchMain('invoice')">請求書</div>
 </div>
 
 <!-- ===== 保温工事 ===== -->
@@ -227,6 +268,53 @@ body {
       <div class="unit-item"><label>値引き（円）</label><input type="number" id="discount" value="0"></div>
     </div>
   </div>
+</div>
+
+<!-- ===== 請求書 ===== -->
+<div id="main-invoice" style="display:none">
+  <div class="section">
+    <div class="section-title">請求先・件名</div>
+    <div class="inv-field"><label>請求先（宛名）</label><input type="text" id="inv_client" placeholder="株式会社〇〇" oninput="renderInvoice()"></div>
+    <div class="inv-field"><label>工事名</label><input type="text" id="inv_koji" placeholder="〇〇新築工事" oninput="renderInvoice()"></div>
+    <div class="inv-grid2">
+      <div class="inv-field"><label>発行日</label><input type="date" id="inv_date" oninput="renderInvoice()"></div>
+      <div class="inv-field"><label>請求番号</label><input type="text" id="inv_number" value="1" oninput="renderInvoice()"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">自社情報</div>
+    <div class="inv-field"><label>会社名</label><input type="text" id="inv_co_name" value="前川工業" oninput="renderInvoice()"></div>
+    <div class="inv-grid2">
+      <div class="inv-field"><label>郵便番号</label><input type="text" id="inv_co_zip" value="514-0818" oninput="renderInvoice()"></div>
+      <div class="inv-field"><label>TEL</label><input type="text" id="inv_co_tel" value="090-9899-1020" oninput="renderInvoice()"></div>
+    </div>
+    <div class="inv-field"><label>住所</label><input type="text" id="inv_co_addr" value="三重県津市城山2丁目22-6" oninput="renderInvoice()"></div>
+    <div class="inv-grid2">
+      <div class="inv-field"><label>メール</label><input type="text" id="inv_co_mail" value="maegawakogyo@gmail.com" oninput="renderInvoice()"></div>
+      <div class="inv-field"><label>登録番号</label><input type="text" id="inv_co_reg" value="T7810461996331" oninput="renderInvoice()"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">お支払い・振込先</div>
+    <div class="inv-field"><label>お支払い期限</label><input type="date" id="inv_due" oninput="renderInvoice()"></div>
+    <div class="inv-field"><label>振込先（銀行・支店）</label><input type="text" id="inv_bank_branch" value="三十三銀行　高茶屋支店" oninput="renderInvoice()"></div>
+    <div class="inv-grid2">
+      <div class="inv-field"><label>預金種別</label><input type="text" id="inv_bank_type" value="普通預金" oninput="renderInvoice()"></div>
+      <div class="inv-field"><label>口座番号</label><input type="text" id="inv_bank_no" value="7027833" oninput="renderInvoice()"></div>
+    </div>
+    <div class="inv-field"><label>口座名義</label><input type="text" id="inv_bank_name" value="マエガワコウギョウ　マエガワリュウスケ" oninput="renderInvoice()"></div>
+    <div class="inv-field"><label>備考欄</label><textarea id="inv_remarks" oninput="renderInvoice()">※上記明細をご確認後、下記の口座にお振込みお願いします。
+※振込手数料はご負担をお願いします。</textarea></div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-calc" onclick="renderInvoice()">プレビュー更新</button>
+    <button class="btn btn-reset" onclick="window.print()">印刷 / PDF保存</button>
+  </div>
+
+  <div id="invoicePrintArea"></div>
 </div>
 
 <div class="btn-row">
@@ -387,9 +475,11 @@ function buildAll(){
 }
 
 // タブ切り替え関数
+const MAIN_TABS = ['hoon','lacing','unit','invoice'];
 function switchMain(tab){
-  ['hoon','lacing','unit'].forEach(t=>document.getElementById('main-'+t).style.display=t===tab?'block':'none');
-  document.querySelectorAll('.main-tab').forEach((el,i)=>el.classList.toggle('active',['hoon','lacing','unit'][i]===tab));
+  MAIN_TABS.forEach(t=>document.getElementById('main-'+t).style.display=t===tab?'block':'none');
+  document.querySelectorAll('.main-tab').forEach((el,i)=>el.classList.toggle('active',MAIN_TABS[i]===tab));
+  if(tab==='invoice') renderInvoice();
 }
 
 function switchInputThick(idx){
@@ -437,7 +527,7 @@ function switchUnitLacingElbowMat(idx){
   document.querySelectorAll('#unitLacingElbowMatTabs .sub-tab').forEach((el,i)=>el.classList.toggle('active',i===idx));
 }
 
-function calculate(){
+function computeEstimate(){
   let pipeTotal=0, valveTotal=0, ductTotal=0, lacingTotal=0;
   const items=[];
 
@@ -489,6 +579,13 @@ function calculate(){
   const sub=pipeTotal+valveTotal+ductTotal+lacingTotal+misc-disc;
   const tax=Math.round(sub*0.1);
 
+  return {pipeTotal,valveTotal,ductTotal,lacingTotal,misc,disc,sub,tax,items};
+}
+
+function calculate(){
+  const r = computeEstimate();
+  const {pipeTotal,valveTotal,ductTotal,lacingTotal,misc,disc,sub,tax,items} = r;
+
   document.getElementById('rPipe').textContent=fmt(pipeTotal);
   document.getElementById('rValve').textContent=fmt(valveTotal);
   document.getElementById('rDuct').textContent=fmt(ductTotal);
@@ -525,7 +622,80 @@ function resetAll(){
   document.getElementById('breakdown').classList.remove('show');
 }
 
+function fmtDate(iso){
+  if(!iso) return '　　　　年　　月　　日';
+  const [y,m,d]=iso.split('-');
+  return `${y}年${+m}月${+d}日`;
+}
+
+function renderInvoice(){
+  const r = computeEstimate();
+  const kojiTotal = r.pipeTotal + r.valveTotal + r.ductTotal + r.lacingTotal;
+  const client = document.getElementById('inv_client').value;
+  const koji = document.getElementById('inv_koji').value;
+  const date = document.getElementById('inv_date').value;
+  const number = document.getElementById('inv_number').value;
+  const due = document.getElementById('inv_due').value;
+  const coName = document.getElementById('inv_co_name').value;
+  const coZip = document.getElementById('inv_co_zip').value;
+  const coAddr = document.getElementById('inv_co_addr').value;
+  const coTel = document.getElementById('inv_co_tel').value;
+  const coMail = document.getElementById('inv_co_mail').value;
+  const coReg = document.getElementById('inv_co_reg').value;
+  const bankBranch = document.getElementById('inv_bank_branch').value;
+  const bankType = document.getElementById('inv_bank_type').value;
+  const bankNo = document.getElementById('inv_bank_no').value;
+  const bankName = document.getElementById('inv_bank_name').value;
+  const remarks = document.getElementById('inv_remarks').value;
+
+  let rows = '';
+  if(koji) rows += `<tr class="iv-koji"><td colspan="4">${koji}</td></tr>`;
+  rows += `<tr><td>保温工事一式</td><td class="iv-num">1 式</td><td class="iv-num">${fmt(kojiTotal)}</td><td class="iv-num">${fmt(kojiTotal)}</td></tr>`;
+  if(r.misc>0) rows += `<tr><td>諸経費</td><td class="iv-num"></td><td class="iv-num">${fmt(r.misc)}</td><td class="iv-num">${fmt(r.misc)}</td></tr>`;
+  if(r.disc>0) rows += `<tr><td>値引き</td><td class="iv-num"></td><td class="iv-num">-${fmt(r.disc)}</td><td class="iv-num">-${fmt(r.disc)}</td></tr>`;
+
+  document.getElementById('invoicePrintArea').innerHTML = `
+    <div class="iv-headrow">
+      <div class="iv-title">請求書</div>
+      <div class="iv-topmeta">発行日：${fmtDate(date)}<br>請求番号：${number}</div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+      <div>
+        <div class="iv-client">${client||'（宛名未入力）'} 御中</div>
+        <div class="iv-lead">下記の通りご請求申し上げます。</div>
+      </div>
+      <div class="iv-co">
+        ${coName}<br>〒${coZip}<br>${coAddr}<br>TEL:${coTel}<br>${coMail}<br>登録番号:${coReg}
+      </div>
+    </div>
+    <div class="iv-amount-box">
+      <span class="iv-amount-label">ご請求金額</span>
+      <span class="iv-amount-value">${fmt(r.sub+r.tax)} - (税込)</span>
+    </div>
+    <table class="iv-table">
+      <thead><tr><th>品番・品名</th><th>数量</th><th>単価</th><th>金額</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div class="iv-summary">
+      <div><span>小計</span><span>${fmt(r.sub)}</span></div>
+      <div><span>消費税（１０％）</span><span>${fmt(r.tax)}</span></div>
+      <div class="iv-total"><span>合計</span><span>${fmt(r.sub+r.tax)}</span></div>
+    </div>
+    <div class="iv-box-label">備考欄</div>
+    <div class="iv-box">${remarks}</div>
+    <div class="iv-box-label">お振込先</div>
+    <div class="iv-box">お支払い期限：${due?fmtDate(due):''}
+お支払い方法：振込先：${bankBranch}
+${bankType}：${bankNo}
+口座名義：${bankName}</div>
+  `;
+}
+
 buildAll();
+(function initInvoiceDates(){
+  const today = new Date().toISOString().slice(0,10);
+  document.getElementById('inv_date').value = today;
+})();
 </script>
 </body>
 </html>
